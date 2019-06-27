@@ -50,6 +50,7 @@
              v-for="post in sorted_posts"
              color="grey lighten-5"
              class="mb-5">
+              <v-btn v-if="show_delete" @click="deletePost(post)" icon class="right"><v-icon>delete</v-icon></v-btn>
                <v-card-title class="display-3 font-weight-light text-uppercase pa-0 ml-2">{{ post.title }}</v-card-title>
                <v-card-text class="display-heading pa-0 ml-2" width="50%">{{ post.author }}</v-card-text>
                <v-card-text class="display-heading pa-0 ml-2">{{ post.date }}</v-card-text>

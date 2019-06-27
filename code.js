@@ -12,6 +12,7 @@
        new_text: "",
        new_image: "",
        server_url: "https://blog-server8.herokuapp.com",
+       secret_keycode: "",
 
        categories: [
          "all",
@@ -65,9 +66,38 @@
 
      created: function() {
        this.getPosts();
+       window.addEventListener("keyup", this.keyEvents); //calls key events method on keyup
      },
 
      methods: {
+       keyEvents: function(event) {
+         if (event.which == 68) {
+           if (this.secret_keycode == "") {
+             this.secret_keycode = "D";
+           } else {
+             this.secret_keycode = "";
+           }
+         } else if (event.which == 69) {
+           if (this.secret_keycode == "D") {
+             this.secret_keycode = "DE";
+           } else {
+             this.secret_keycode = "";
+           }
+         } else if (event.which == 76) {
+           if (this.secret_keycode == "DE") {
+             this.secret_keycode = "DEL";
+           } else {
+             this.secret_keycode = "";
+           }
+         } else {
+           this.secret_keycode = "";
+         }
+         console.log( this.secret_keycode );
+       },
+
+       deletePost: function(post) {
+
+       },
        //connect back end with front end
        getPosts: function() {
          fetch(this.server_url + "/posts").then(function(res){
@@ -106,9 +136,28 @@
          app.page="home";
          });
        },
+
+       deletePost: function(post) {
+         fetch(`${this.server_url}/posts/${post._id}`, {
+           method: "DELETE"
+         }).then(function(response) {
+           if (res.status == 204) {
+             console.log("It works");
+             app.getPosts();
+           } else if (res.status == 400) {
+             response.json().then(function(data){
+               alert(data.msg);
+             })
+           }
+         })
+       }
      },
 
      computed: {
+       show_delete: function () {
+         return this.secret_keycode == "DEL";
+       },
+
        sorted_posts: function() {
          if(this.selected_category == "all") {
            return this.posts;
