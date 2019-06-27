@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"
+</head>
+<body>
+
+
+<div id="app">
+  <v-app>
+    <v-content>
+      <v-toolbar prominent flat color="grey lighten-5">
+        <!-- !drawer actually means not false because false is our default -->
+        <v-toolbar-side-icon @click="drawer = '!drawer'"></v-toolbar-side-icon>
+        <v-toolbar-title>Blog About Plants</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-toolbar-items>
+          <v-btn flat @click="page = 'home'">Blog</v-btn>
+          <v-btn flat @click="page = 'post'">Post</v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+
+<!-- App says stay fixed over entire app-shoves other content over -->
+      <v-navigation-drawer app v-model="drawer">
+        <v-list>
+          <v-list-tile v-for="post in posts">
+            <v-list-content>
+              <!-- this is so that the browser can distinguish between what we are selecting  -->
+              <v-list-tile-title>{{ post.title }}</v-list-tile-title>
+            </v-list-content>
+          </v-list-tile>
+        </v-list>
+      </v-navigation-drawer>
+
+      <div class="grey lighten-4">
+      <v-container v-if="page == 'home'">
+        <!-- items is a key word that needs to be used to bind to list -->
+        <v-select
+        :items="categories"
+        v-model="selected_category"
+        label="Refine Category"
+        outline>
+       </v-select>
+       <v-container>
+         <v-layout justify-center>
+           <v-flex xs9>
+             <v-card
+             v-for="post in sorted_posts"
+             color="grey lighten-5"
+             class="mb-5">
+               <v-card-title class="display-3 font-weight-light text-uppercase pa-0 ml-2">{{ post.title }}</v-card-title>
+               <v-card-text class="display-heading pa-0 ml-2" width="50%">{{ post.author }}</v-card-text>
+               <v-card-text class="display-heading pa-0 ml-2">{{ post.date }}</v-card-text>
+               <v-img :src="post.image" height="300px"></v-img>
+              <v-card-text>{{ post.text }}</v-card-text>
+             </v-card>
+           </v-flex>
+         </v-layout>
+       </v-container>
+      </v-container>
+
+
+      <v-container v-if="page == 'post'">
+        <v-layout justify-center>
+          <v-flex xs8>
+            <v-card color="grey lighten-5">
+              <v-form>
+              <v-card-Title
+                class="display-2 font-weight-light text-uppercase">
+                Add a New Post
+              </v-card-title>
+              <v-text-field label="title" v-model="new_title"></v-text-field>
+              <v-text-field label="author" v-model="new_author"></v-text-field>
+              <v-select
+              :items="categories"
+              outline label="choose a category"
+              v-model="new_category">
+            </v-select>
+              <v-textarea label="text" v-model=new_text>Text</v-textarea>
+              <v-text-field label="image url" v-model="new_image"></v-text-field>
+              <v-btn @click="addPost()">sumbit</v-btn>
+              </v-form>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+      </div>
+</v-content>
+</v-app>
+</div>
+<!-- toolbar eventually -->
+<!-- <div>Collector's Blog</div>
+<button v-on:click="page = 'home'">Home</button>
+<button v-on:click="page = 'post'">Post</button>
+<br>
+
+<div v-if="page == 'home'">
+  <select v-model="selected_category">
+      <option
+      v-for="category in categories"
+      v-bind:value="category">
+        {{ category }}
+      </option>
+  </select>
+  {{ selected_category }}
+  <div v-for="post in sorted_posts">
+    <img :src="post.image" width="300" height="300"/>
+    <div>{{ post.title }}</div>
+    <div>{{ post.author }}</div>
+    <div>{{ post.category }}</div>
+    <div>{{ post.text }}</div>
+    <div>{{ post.date }}</div>
+  </div>
+</div>
+
+<div v-if="page == 'post'">
+  <div>Add New Blog Post</div>
+  Title: <input type="text" v-model:"new_title">
+  <br>
+  Author: <input type="text" new_model:"new_author">
+  <br>
+  Category: <select v-model="new_category">
+    <option v-bind:value="category" v-for="category in categories">{{ category }}</option>
+  </select>
+  <br>
+  Text: <textarea v-model="new_text"></textarea>
+  <br>
+  Image: <input v-model="new_image" type="image">
+  <br>
+  <button v-on:click="addPost()">submit</submit>
+
+</div> -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+<script src=code.js></script>
+</body>
+</html>
