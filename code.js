@@ -140,12 +140,12 @@
        deletePost: function(post) {
          fetch(`${this.server_url}/posts/${post._id}`, {
            method: "DELETE"
-         }).then(function(response) {
+         }).then(function(res) {
            if (res.status == 204) {
              console.log("It works");
              app.getPosts();
            } else if (res.status == 400) {
-             response.json().then(function(data){
+             res.json().then(function(data){
                alert(data.msg);
              })
            }
