@@ -2,7 +2,7 @@
      el: "#app",
 
      data: {
-       page: "home",
+       page: "edit",
        //determining wether navigation drawer is on or off
        drawer: false,
        selected_category: "all",
@@ -95,9 +95,6 @@
          console.log( this.secret_keycode );
        },
 
-       deletePost: function(post) {
-
-       },
        //connect back end with front end
        getPosts: function() {
          fetch(this.server_url + "/posts").then(function(res){
@@ -134,7 +131,14 @@
          app.new_text="";
          app.new_image="";
          app.page="home";
+         app.getPosts();
          });
+       },
+
+       editPost: function(post) {
+         fetch(`${this.server}/posts/${post._id}` {
+           method: "PUT"
+         }).then
        },
 
        deletePost: function(post) {
